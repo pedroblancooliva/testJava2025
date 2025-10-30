@@ -21,11 +21,18 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 @RestController
 @RequestMapping("/api/prices")
 public class PriceController {
 	
     private PriceService priceService;
+
+    private static final Logger logger = LogManager.getLogger(PriceController.class);
     
     @Autowired
     public PriceController(PriceService priceService) {
@@ -34,33 +41,43 @@ public class PriceController {
 	}
 
 
-
-
-
-
 	@Tag(name="Get Price")
-	@Operation(summary = "Return the price of a product on the specified date")
-	@GetMapping(value = "/v1/getPrice")    
+	@Operation(summary = "Returns the price that applies to a given product and brand on the specified date, based on business rules and priority.")
+	@GetMapping(value = "/v1/getApplicablePrice")    
 	@ResponseBody
-    public ResponseEntity<?> getPrice(
+    public ResponseEntity<?> getApplicablePrice(
     		
-        @RequestParam @Parameter(name =  "applicationDate", description  = "Application date ", example = "2025-10-30-13.23.59", required = true)
-        			  @DateTimeFormat(pattern = "yyyy-MM-dd-hh.mm.ss") String applicationDate ,
-        @RequestParam Integer productId,
-        @RequestParam Integer brandId) {
+        @RequestParam @Parameter(name =  "applicationDate", description  = "Application date ", example = "15/06/2020 15:00:00", required = true)
+        			  @DateTimeFormat(pattern = "dd/MM/yyyy hh:mm:ss") String applicationDate ,
+        @RequestParam @Parameter(name="productId", description ="Id Product", required=true) Integer productId,
+        @RequestParam @Parameter(name="brandId", description="Id Brand", required=true) Integer brandId) {
 
-        LocalDateTime date = LocalDateTime.parse(applicationDate, DateTimeFormatter.ofPattern("yyyy-MM-dd-HH.mm.ss"));
+		logger.debug("Petición recibida: applicationDate={}, productId={}, brandId={}", applicationDate, productId, brandId);
+		
 
-        return priceService.getApplicablePrice(date, productId, brandId)
-            .map(price -> ResponseEntity.ok(Map.of(
-                "productId", price.getProductId(),
-                "brandId", price.getBrandId(),
-                "priceList", price.getPriceList(),
-                "startDate", price.getStartDate(),
-                "endDate", price.getEndDate(),
-                "price", price.getPrice(),
-                "currency", price.getCurrency()
-            )))
-            .orElse(ResponseEntity.notFound().build());
+		DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		LocalDateTime date = LocalDateTime.parse(applicationDate, inputFormatter);
+		
+	
+
+		return priceService.getApplicablePrice(date, productId, brandId)
+	    .map(price -> {
+	        Map<String, Object> response = Map.of(
+	            "productId", price.getProductId(),
+	            "brandId", price.getBrandId(),
+	            "priceList", price.getPriceList(),
+	            "startDate", price.getStartDate(),
+	            "endDate", price.getEndDate(),
+	            "price", price.getPrice(),
+	            "currency", price.getCurrency()
+	        );
+	        logger.debug("Respuesta generada: {}", response);
+	        return ResponseEntity.ok(response);
+	    })
+	    .orElseGet(() -> {
+	        logger.debug("No applicable price was found for the parameters received.");
+	        return ResponseEntity.notFound().build();
+	    });
+
     }
 }

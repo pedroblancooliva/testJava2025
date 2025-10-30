@@ -23,11 +23,26 @@ public class PriceServiceImpl implements PriceService{
 			this.priceRepository = priceRepository;
 	}
 
+    
+    /**
+     * Returns the price that applies for a given product and brand on a specific date.
+     * If there are several valid prices, the one with the highest priority is returned.
+     *
+     * Devuelve el precio que se deba aplicar para un producto y una marca determinados en una fecha específica,
+     * Si hay varios precios válidos, se devuelve el que tiene la prioridad más alta.
+     *
+     * @param applicationDate the date for which the price should be applied / fecha de aplicación
+     * @param productId the ID of the product / ID del producto
+     * @param brandId the ID of the brand / ID de la marca
+     * @return an Optional containing the effective Price / un Optional con el precio efectivo,
+
+     */
 	@Override
     public Optional<Price> getApplicablePrice(LocalDateTime applicationDate, Integer productId, Integer brandId) {
         List<Price> prices = priceRepository.findByProductIdAndBrandIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
             productId, brandId, applicationDate, applicationDate);
-
+        
+        
         return prices.stream().max(Comparator.comparingInt(Price::getPriority));
     }
 }
