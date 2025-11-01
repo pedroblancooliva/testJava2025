@@ -2,55 +2,96 @@ package com.inditex.testJava2025.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 
 
 public class PriceResponseDTO {
 	
-		private int productId;
-		private Integer brandId;
-	    private int priceList;
-	    private LocalDateTime startDate;
-	    private LocalDateTime endDate;
-	    private BigDecimal price;
+	@Schema(description = "Identificador del producto", example = "35455")
+	private Long productId;
+	
+	@Schema(description = "Identificador de la marca/cadena", example = "1")
+	private Long brandId;
+	
+	@Schema(description = "Identificador de la tarifa aplicada", example = "1")
+	private Integer priceList;
+	
+	@Schema(description = "Precio aplicable", example = "35.50")
+	private BigDecimal price;
+	
+	@Schema(description = "Código de moneda", example = "EUR")
+	private String currency;
+
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
+
+	public Long getBrandId() {
+		return brandId;
+	}
+
+	public void setBrandId(Long brandId) {
+		this.brandId = brandId;
+	}
+
+	public Integer getPriceList() {
+		return priceList;
+	}
+
+	public void setPriceList(Integer priceList) {
+		this.priceList = priceList;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(brandId, currency, price, priceList, productId);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PriceResponseDTO other = (PriceResponseDTO) obj;
+		return Objects.equals(brandId, other.brandId) && Objects.equals(currency, other.currency)
+				&& Objects.equals(price, other.price) && Objects.equals(priceList, other.priceList)
+				&& Objects.equals(productId, other.productId);
+	}
+
+	@Override
+	public String toString() {
+		return "PriceResponseDTO [productId=" + productId + ", brandId=" + brandId + ", priceList=" + priceList
+				+ ", price=" + price + ", currency=" + currency + "]";
+	}
 	    
 	    
-	    public int getProductId() {
-			return productId;
-		}
-		public void setProductId(int productId) {
-			this.productId = productId;
-		}
-		public Integer getBrandId() {
-			return brandId;
-		}
-		public void setBrandId(Integer brandId) {
-			this.brandId = brandId;
-		}
-		public int getPriceList() {
-			return priceList;
-		}
-		public void setPriceList(int priceList) {
-			this.priceList = priceList;
-		}
-		public LocalDateTime getStartDate() {
-			return startDate;
-		}
-		public void setStartDate(LocalDateTime startDate) {
-			this.startDate = startDate;
-		}
-		public LocalDateTime getEndDate() {
-			return endDate;
-		}
-		public void setEndDate(LocalDateTime endDate) {
-			this.endDate = endDate;
-		}
-		public BigDecimal getPrice() {
-			return price;
-		}
-		public void setPrice(BigDecimal price) {
-			this.price = price;
-		}
+	
 	    
 }
