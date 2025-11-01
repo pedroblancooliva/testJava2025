@@ -46,16 +46,15 @@ class PriceServiceImplTest {
         brandId = 1L;
 
         price1 = new Price(
-            1L,
-            1L,
-            LocalDateTime.of(2020, 6, 14, 0, 0),
-            LocalDateTime.of(2020, 12, 31, 23, 59, 59),
-            1,
-            35455L,
-            0,
-            new BigDecimal("35.50"),
-            "EUR"
-        );
+                1L,
+                1L,
+                LocalDateTime.of(2020, 6, 14, 0, 0),
+                LocalDateTime.of(2020, 12, 31, 23, 59, 59),
+                1,
+                35455L,
+                0,
+                new BigDecimal("35.50"),
+                "EUR");
     }
 
     @Test
@@ -68,9 +67,9 @@ class PriceServiceImplTest {
         expectedResponse.setPriceList(1);
         expectedResponse.setPrice(new BigDecimal("35.50"));
         expectedResponse.setCurrency("EUR");
-        
+
         when(priceRepository.findApplicablePrices(brandId, productId, applicationDate))
-            .thenReturn(prices);
+                .thenReturn(prices);
         when(priceMapper.toResponseDTO(price1)).thenReturn(expectedResponse);
 
         // When
@@ -85,13 +84,13 @@ class PriceServiceImplTest {
     void shouldThrowExceptionWhenNoPricesFound() {
         // Given
         when(priceRepository.findApplicablePrices(brandId, productId, applicationDate))
-            .thenReturn(Collections.emptyList());
+                .thenReturn(Collections.emptyList());
 
         // When & Then
         PriceNotFoundException exception = assertThrows(PriceNotFoundException.class, () -> {
             priceService.getApplicablePrice(applicationDate, productId, brandId);
         });
-        
+
         assertTrue(exception.getMessage().contains("No se encontró precio aplicable"));
     }
 }

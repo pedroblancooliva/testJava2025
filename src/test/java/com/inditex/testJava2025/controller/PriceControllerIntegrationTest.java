@@ -191,24 +191,24 @@ class PriceControllerIntegrationTest {
                 .param("applicationDate", "2020-06-14T10:00:00")
                 .param("productId", "-1")
                 .param("brandId", "1"))
-		        .andExpect(jsonPath("$.status").value(404))
-		        .andExpect(jsonPath("$.error").value("Precio no encontrado"));
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.error").value("Precio no encontrado"));
 
         // BrandId negativo
         mockMvc.perform(get(BASE_URL)
                 .param("applicationDate", "2020-06-14T10:00:00")
                 .param("productId", "35455")
                 .param("brandId", "-1"))
-        		.andExpect(jsonPath("$.status").value(404))
-        		.andExpect(jsonPath("$.error").value("Precio no encontrado"));
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.error").value("Precio no encontrado"));
 
         // Fecha inválida
         mockMvc.perform(get(BASE_URL)
                 .param("applicationDate", "2020-16-14T10:00:00")
                 .param("productId", "35455")
                 .param("brandId", "1"))
-        		.andExpect(jsonPath("$.status").value(400))
-        		.andExpect(jsonPath("$.error").value("Error de validación"));
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.error").value("Error de validación"));
     }
 
     @Test

@@ -24,10 +24,10 @@ class PriceResponseDTOTest {
     void shouldSetAndGetProductId() {
         // Given
         Long productId = 12345L;
-        
+
         // When
         priceResponseDTO.setProductId(productId);
-        
+
         // Then
         assertEquals(productId, priceResponseDTO.getProductId());
     }
@@ -36,10 +36,10 @@ class PriceResponseDTOTest {
     void shouldSetAndGetBrandId() {
         // Given
         Long brandId = 2L;
-        
+
         // When
         priceResponseDTO.setBrandId(brandId);
-        
+
         // Then
         assertEquals(brandId, priceResponseDTO.getBrandId());
     }
@@ -48,10 +48,10 @@ class PriceResponseDTOTest {
     void shouldSetAndGetPriceList() {
         // Given
         Integer priceList = 3;
-        
+
         // When
         priceResponseDTO.setPriceList(priceList);
-        
+
         // Then
         assertEquals(priceList, priceResponseDTO.getPriceList());
     }
@@ -60,10 +60,10 @@ class PriceResponseDTOTest {
     void shouldSetAndGetPrice() {
         // Given
         BigDecimal price = new BigDecimal("99.99");
-        
+
         // When
         priceResponseDTO.setPrice(price);
-        
+
         // Then
         assertEquals(price, priceResponseDTO.getPrice());
     }
@@ -72,10 +72,10 @@ class PriceResponseDTOTest {
     void shouldSetAndGetCurrency() {
         // Given
         String currency = "USD";
-        
+
         // When
         priceResponseDTO.setCurrency(currency);
-        
+
         // Then
         assertEquals(currency, priceResponseDTO.getCurrency());
     }
@@ -89,7 +89,7 @@ class PriceResponseDTOTest {
         anotherDTO.setPriceList(1);
         anotherDTO.setPrice(new BigDecimal("35.50"));
         anotherDTO.setCurrency("EUR");
-        
+
         // When & Then
         assertEquals(priceResponseDTO, anotherDTO);
         assertEquals(priceResponseDTO.hashCode(), anotherDTO.hashCode());
@@ -104,7 +104,7 @@ class PriceResponseDTOTest {
         differentDTO.setPriceList(1);
         differentDTO.setPrice(new BigDecimal("35.50"));
         differentDTO.setCurrency("EUR");
-        
+
         // When & Then
         assertNotEquals(priceResponseDTO, differentDTO);
     }
@@ -125,7 +125,7 @@ class PriceResponseDTOTest {
     void shouldHaveToStringRepresentation() {
         // When
         String result = priceResponseDTO.toString();
-        
+
         // Then
         assertNotNull(result);
         assertTrue(result.contains("PriceResponseDTO"));
@@ -139,7 +139,7 @@ class PriceResponseDTOTest {
     void shouldCreateEmptyDTO() {
         // When
         PriceResponseDTO emptyDTO = new PriceResponseDTO();
-        
+
         // Then
         assertNotNull(emptyDTO);
         assertNull(emptyDTO.getProductId());
