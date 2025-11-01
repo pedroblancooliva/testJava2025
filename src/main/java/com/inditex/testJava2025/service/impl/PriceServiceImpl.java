@@ -38,11 +38,8 @@ public class PriceServiceImpl implements PriceService{
 
      */
 	@Override
-    public Optional<Price> getApplicablePrice(LocalDateTime applicationDate, Integer productId, Integer brandId) {
-        List<Price> prices = priceRepository.findByProductIdAndBrandIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-            productId, brandId, applicationDate, applicationDate);
-        
-        
+    public Optional<Price> getApplicablePrice(LocalDateTime applicationDate, Long productId, Long brandId) {
+        List<Price> prices = priceRepository.findApplicablePrices(productId, brandId, applicationDate);
         return prices.stream().max(Comparator.comparingInt(Price::getPriority));
     }
 }
