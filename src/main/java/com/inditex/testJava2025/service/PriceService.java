@@ -7,6 +7,6 @@ import com.inditex.testJava2025.entity.Price;
 
 public interface PriceService {
 
-	Optional<Price> getApplicablePrice(LocalDateTime applicationDate, Integer productId, Integer brandId);
+	Optional<Price> getApplicablePrice(LocalDateTime applicationDate, Long productId, Long brandId);
 
 }
