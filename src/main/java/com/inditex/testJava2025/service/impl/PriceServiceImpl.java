@@ -4,7 +4,9 @@ package com.inditex.testJava2025.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.inditex.testJava2025.dto.PriceResponseDTO;
 import com.inditex.testJava2025.entity.Price;
+import com.inditex.testJava2025.mapper.PriceMapper;
 import com.inditex.testJava2025.repository.PriceRepository;
 import com.inditex.testJava2025.service.PriceService;
 
@@ -37,9 +39,11 @@ public class PriceServiceImpl implements PriceService{
      * @return an Optional containing the effective Price / un Optional con el precio efectivo,
 
      */
-	@Override
-    public Optional<Price> getApplicablePrice(LocalDateTime applicationDate, Long productId, Long brandId) {
+    @Override
+    public Optional<PriceResponseDTO> getApplicablePrice(LocalDateTime applicationDate, Long productId, Long brandId) {
         List<Price> prices = priceRepository.findApplicablePrices(productId, brandId, applicationDate);
-        return prices.stream().max(Comparator.comparingInt(Price::getPriority));
+        return prices.stream()
+                .max(Comparator.comparingInt(Price::getPriority))
+                .map(PriceMapper.INSTANCE::toResponseDTO);
     }
 }
