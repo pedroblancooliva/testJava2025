@@ -17,18 +17,17 @@ class PriceTest {
     void setUp() {
         startDate = LocalDateTime.of(2020, 6, 14, 0, 0);
         endDate = LocalDateTime.of(2020, 12, 31, 23, 59, 59);
-        
+
         price = new Price(
-            1L,
-            1L,
-            startDate,
-            endDate,
-            1,
-            35455L,
-            0,
-            new BigDecimal("35.50"),
-            "EUR"
-        );
+                1L,
+                1L,
+                startDate,
+                endDate,
+                1,
+                35455L,
+                0,
+                new BigDecimal("35.50"),
+                "EUR");
     }
 
     @Test
@@ -49,7 +48,7 @@ class PriceTest {
     void shouldCreateEmptyPrice() {
         // When
         Price emptyPrice = new Price();
-        
+
         // Then
         assertNotNull(emptyPrice);
         assertNull(emptyPrice.getId());
@@ -61,7 +60,7 @@ class PriceTest {
         Price newPrice = new Price();
         LocalDateTime newStartDate = LocalDateTime.of(2021, 1, 1, 0, 0);
         LocalDateTime newEndDate = LocalDateTime.of(2021, 12, 31, 23, 59);
-        
+
         // When
         newPrice.setId(2L);
         newPrice.setBrandId(2L);
@@ -72,7 +71,7 @@ class PriceTest {
         newPrice.setPriority(1);
         newPrice.setPrice(new BigDecimal("45.99"));
         newPrice.setCurrency("USD");
-        
+
         // Then
         assertEquals(2L, newPrice.getId());
         assertEquals(2, newPrice.getBrandId());
@@ -89,17 +88,16 @@ class PriceTest {
     void shouldBeEqualWhenSameValues() {
         // Given
         Price anotherPrice = new Price(
-            1L,
-            1L,
-            startDate,
-            endDate,
-            1,
-            35455L,
-            0,
-            new BigDecimal("35.50"),
-            "EUR"
-        );
-        
+                1L,
+                1L,
+                startDate,
+                endDate,
+                1,
+                35455L,
+                0,
+                new BigDecimal("35.50"),
+                "EUR");
+
         // When & Then
         assertEquals(price, anotherPrice);
         assertEquals(price.hashCode(), anotherPrice.hashCode());
@@ -109,17 +107,16 @@ class PriceTest {
     void shouldNotBeEqualWhenDifferentValues() {
         // Given
         Price differentPrice = new Price(
-            2L,
-            1L,
-            startDate,
-            endDate,
-            1,
-            35455L,
-            0,
-            new BigDecimal("35.50"),
-            "EUR"
-        );
-        
+                2L,
+                1L,
+                startDate,
+                endDate,
+                1,
+                35455L,
+                0,
+                new BigDecimal("35.50"),
+                "EUR");
+
         // When & Then
         assertNotEquals(price, differentPrice);
     }
@@ -140,7 +137,7 @@ class PriceTest {
     void shouldHaveToStringRepresentation() {
         // When
         String result = price.toString();
-        
+
         // Then
         assertNotNull(result);
         assertTrue(result.contains("Price"));

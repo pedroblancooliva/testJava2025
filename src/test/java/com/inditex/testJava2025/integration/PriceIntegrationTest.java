@@ -41,7 +41,7 @@ class PriceIntegrationTest {
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        
+
         PriceResponseDTO priceResponse = response.getBody();
         assertEquals(35455L, priceResponse.getProductId());
         assertEquals(1L, priceResponse.getBrandId());
@@ -62,7 +62,7 @@ class PriceIntegrationTest {
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        
+
         PriceResponseDTO priceResponse = response.getBody();
         assertEquals(35455L, priceResponse.getProductId());
         assertEquals(1L, priceResponse.getBrandId());
@@ -83,7 +83,7 @@ class PriceIntegrationTest {
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        
+
         PriceResponseDTO priceResponse = response.getBody();
         assertEquals(35455L, priceResponse.getProductId());
         assertEquals(1L, priceResponse.getBrandId());
@@ -104,7 +104,7 @@ class PriceIntegrationTest {
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        
+
         PriceResponseDTO priceResponse = response.getBody();
         assertEquals(35455L, priceResponse.getProductId());
         assertEquals(1L, priceResponse.getBrandId());
@@ -125,7 +125,7 @@ class PriceIntegrationTest {
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        
+
         PriceResponseDTO priceResponse = response.getBody();
         assertEquals(35455L, priceResponse.getProductId());
         assertEquals(1L, priceResponse.getBrandId());
