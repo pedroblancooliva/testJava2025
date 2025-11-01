@@ -2,20 +2,20 @@ package com.inditex.testJava2025.controller;
 
 import java.time.LocalDateTime;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inditex.testJava2025.dto.PriceResponseDTO;
-import com.inditex.testJava2025.exceptions.PriceNotFoundException;
 import com.inditex.testJava2025.service.PriceService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,8 +38,11 @@ public class PriceController {
 
 	private final PriceService priceService;
 
+	private static final Logger logger = LogManager.getLogger(PriceController.class);
+	
 	public PriceController(PriceService priceService) {
 		this.priceService = priceService;
+		logger.info("PriceController inicializado correctamente");
 	}
 
 	/**
@@ -73,55 +76,25 @@ public class PriceController {
 
 			@Parameter(description = "Identificador de la marca (cadena)", example = "1", required = true) @RequestParam("brandId") @NotNull(message = "El ID de la marca es obligatorio") @Positive(message = "El ID de la marca debe ser positivo") Long brandId) {
 
-		PriceResponseDTO response = priceService.getApplicablePrice(applicationDate, productId, brandId);
-
-		return ResponseEntity.ok(response);
-
-	}
-
-	/**
-	 * Manejo de excepción cuando no se encuentra un precio aplicable
-	 */
-	@ExceptionHandler(PriceNotFoundException.class)
-	public ResponseEntity<ErrorResponse> handlePriceNotFound(PriceNotFoundException ex) {
-		ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), "Precio no encontrado", ex.getMessage());
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-	}
-
-	/**
-	 * Manejo de errores de validación
-	 */
-	@ExceptionHandler(IllegalArgumentException.class)
-	public ResponseEntity<ErrorResponse> handleValidationError(IllegalArgumentException ex) {
-		ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Error de validación", ex.getMessage());
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-	}
-
-	/**
-	 * DTO para respuestas de error
-	 */
-	public static class ErrorResponse {
-		private int status;
-		private String error;
-		private String message;
-
-		public ErrorResponse(int status, String error, String message) {
-			this.status = status;
-			this.error = error;
-			this.message = message;
+		logger.info("Recibida petición de precio - Fecha: {}, ProductoID: {}, MarcaID: {}", 
+			applicationDate, productId, brandId);
+		
+		long startTime = System.currentTimeMillis();
+		
+		try {
+			PriceResponseDTO response = priceService.getApplicablePrice(applicationDate, productId, brandId);
+			
+			long endTime = System.currentTimeMillis();
+			logger.info("Precio encontrado exitosamente - ProductoID: {}, MarcaID: {}, Precio: {}, Lista: {}, Tiempo: {}ms", 
+				productId, brandId, response.getPrice(), response.getPriceList(), (endTime - startTime));
+			
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			long endTime = System.currentTimeMillis();
+			logger.error("Error al consultar precio - ProductoID: {}, MarcaID: {}, Tiempo: {}ms, Error: {}", 
+				productId, brandId, (endTime - startTime), e.getMessage());
+			throw e; // Re-lanzar para que GlobalExceptionHandler lo maneje
 		}
 
-		// Getters
-		public int getStatus() {
-			return status;
-		}
-
-		public String getError() {
-			return error;
-		}
-
-		public String getMessage() {
-			return message;
-		}
 	}
 }
