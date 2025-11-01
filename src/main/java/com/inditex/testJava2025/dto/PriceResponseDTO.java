@@ -1,30 +1,42 @@
 package com.inditex.testJava2025.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
-
-
 public class PriceResponseDTO {
-	
+
+
+
 	@Schema(description = "Identificador del producto", example = "35455")
 	private Long productId;
-	
+
 	@Schema(description = "Identificador de la marca/cadena", example = "1")
 	private Long brandId;
-	
+
 	@Schema(description = "Identificador de la tarifa aplicada", example = "1")
 	private Integer priceList;
-	
+
 	@Schema(description = "Precio aplicable", example = "35.50")
 	private BigDecimal price;
-	
+
 	@Schema(description = "Código de moneda", example = "EUR")
 	private String currency;
+
+	
+	public PriceResponseDTO() {
+		super();
+	}
+	
+	public PriceResponseDTO(Long productId, Long brandId, Integer priceList, BigDecimal price, String currency) {
+		super();
+		this.productId = productId;
+		this.brandId = brandId;
+		this.priceList = priceList;
+		this.price = price;
+		this.currency = currency;
+	}
 
 	public Long getProductId() {
 		return productId;
@@ -90,8 +102,5 @@ public class PriceResponseDTO {
 		return "PriceResponseDTO [productId=" + productId + ", brandId=" + brandId + ", priceList=" + priceList
 				+ ", price=" + price + ", currency=" + currency + "]";
 	}
-	    
-	    
-	
-	    
+
 }

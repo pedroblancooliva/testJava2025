@@ -24,7 +24,7 @@ public class Price {
     private Long id;
 
     @Column(name = "BRAND_ID", nullable = false)
-    private Integer brandId;
+    private Long brandId;
 
     @Column(name = "START_DATE", nullable = false)
     private LocalDateTime startDate;
@@ -36,7 +36,7 @@ public class Price {
     private Integer priceList;
 
     @Column(name = "PRODUCT_ID", nullable = false)
-    private Integer productId;
+    private Long productId;
 
     @Column(name = "PRIORITY", nullable = false)
     private Integer priority;
@@ -52,8 +52,8 @@ public class Price {
 		super();
 	}
 
-	public Price(Long id, Integer brandId, LocalDateTime startDate, LocalDateTime endDate, Integer priceList,
-			Integer productId, Integer priority, BigDecimal price, String currency) {
+	public Price(Long id, Long brandId, LocalDateTime startDate, LocalDateTime endDate, Integer priceList,
+			Long productId, Integer priority, BigDecimal price, String currency) {
 		super();
 		this.id = id;
 		this.brandId = brandId;
@@ -74,11 +74,11 @@ public class Price {
 		this.id = id;
 	}
 
-	public Integer getBrandId() {
+	public Long getBrandId() {
 		return brandId;
 	}
 
-	public void setBrandId(Integer brandId) {
+	public void setBrandId(Long brandId) {
 		this.brandId = brandId;
 	}
 
@@ -106,11 +106,11 @@ public class Price {
 		this.priceList = priceList;
 	}
 
-	public Integer getProductId() {
+	public Long getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Integer productId) {
+	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
 

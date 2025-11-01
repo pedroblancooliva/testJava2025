@@ -11,7 +11,7 @@ import com.inditex.testJava2025.entity.Price;
 
 public interface PriceRepository extends JpaRepository<Price, Long> {
 	
-    @Query("SELECT p FROM PriceJpaEntity p " +
+    @Query("SELECT p FROM Price p " +
             "WHERE p.brandId = :brandId " +
             "AND p.productId = :productId " +
             "AND :applicationDate >= p.startDate " +
